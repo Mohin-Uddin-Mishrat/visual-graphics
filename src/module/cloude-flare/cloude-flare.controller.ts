@@ -46,6 +46,19 @@ export class CloudeFlareController {
     });
   }
 
+  @Get('client-assets/:id')
+  @ApiOperation({ summary: 'Get a single client asset' })
+  async getClientAssetById(@Param('id') id: string, @Res() res: Response) {
+    const result = await this.cloudeFlareService.getClientAssetById(id);
+
+    return sendResponse(res, {
+      statusCode: HttpStatus.OK,
+      success: true,
+      message: 'Client asset retrieved successfully',
+      data: result,
+    });
+  }
+
   @Post('client-assets')
   @ApiOperation({ summary: 'Upload a client asset to Cloudflare R2' })
   @ApiConsumes('multipart/form-data')

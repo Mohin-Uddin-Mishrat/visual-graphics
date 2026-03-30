@@ -80,6 +80,18 @@ export class CloudeFlareService {
     });
   }
 
+  async getClientAssetById(id: string) {
+    const asset = await this.prisma.client.clientAsset.findUnique({
+      where: { id },
+    });
+
+    if (!asset) {
+      throw new NotFoundException('Client asset not found');
+    }
+
+    return asset;
+  }
+
   async deleteClientAsset(id: string) {
     const asset = await this.prisma.client.clientAsset.findUnique({
       where: { id },
