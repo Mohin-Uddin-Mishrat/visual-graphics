@@ -15,7 +15,6 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
 import { ApiConsumes, ApiOperation, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/common/decorators/public.decorators';
-import { fileFilter, multerMemoryStorage } from 'src/common/utils/file-upload.util';
 import sendResponse from '../utils/sendResponse';
 import { CreateJobDto } from './dto/create-job.dto';
 import { GetAllJobsQueryDto } from './dto/get-all-jobs-query.dto';
@@ -54,29 +53,6 @@ export class JobController {
     });
   }
 
-  @Post()
-  @UseInterceptors(
-    FileInterceptor('logo', {
-      storage: multerMemoryStorage,
-      fileFilter,
-    }),
-  )
-  @ApiConsumes('multipart/form-data')
-  @ApiOperation({ summary: 'Create a new job (Admin)' })
-  async createJob(
-    @Body() dto: CreateJobDto,
-    @Res() res: Response,
-    @UploadedFile() file: Express.Multer.File,
-  ) {
-    const result = await this.jobService.createJob(dto, file);
-
-    return sendResponse(res, {
-      statusCode: HttpStatus.CREATED,
-      success: true,
-      message: 'Job created successfully',
-      data: result,
-    });
-  }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a job (Admin)' })

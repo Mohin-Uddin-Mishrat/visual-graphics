@@ -4,7 +4,6 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CloudinaryService } from 'src/common/services/cloudinary.service';
 import { CreateJobDto } from './dto/create-job.dto';
 import { CreateApplicationDto } from './dto/create-application.dto';
 import { GetAllJobsQueryDto } from './dto/get-all-jobs-query.dto';
@@ -13,7 +12,6 @@ import { GetAllJobsQueryDto } from './dto/get-all-jobs-query.dto';
 export class JobService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly cloudinaryService: CloudinaryService,
   ) { }
 
   async getAllApplications() {
@@ -73,26 +71,6 @@ export class JobService {
     return job;
   }
 
-  async createJob(dto: CreateJobDto, file?: Express.Multer.File) {
-    let logoUrl = null;
-
-    if (file) {
-      const uploadResult = await this.cloudinaryService.uploadImage(
-        file,
-        'job-logos',
-      );
-      logoUrl = uploadResult.secure_url;
-    }
-
-    const { logo, ...jobData } = dto;
-
-    return this.prisma.client.job.create({
-      data: {
-        ...jobData,
-        logo: logoUrl,
-      },
-    });
-  }
 
   async deleteJob(id: string) {
     const job = await this.prisma.client.job.findUnique({

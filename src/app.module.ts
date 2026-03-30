@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { PrismaModule } from './module/prisma/prisma.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JobModule } from './module/job/job.module';
+import { CloudeFlareModule } from './module/cloude-flare/cloude-flare.module';
+import { LoudeFlareService } from './loude-flare/loude-flare.service';
 
 @Module({
   imports: [
@@ -12,9 +14,10 @@ import { JobModule } from './module/job/job.module';
     }),
     PrismaModule,
     JobModule,
+    CloudeFlareModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, LoudeFlareService],
   exports: [],
 })
 export class AppModule {}
