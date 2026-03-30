@@ -4,6 +4,7 @@ import { CloudeFlareService } from './cloude-flare.service';
 
 @Module({
   controllers: [CloudeFlareController],
-  providers: [CloudeFlareService]
+  providers: [CloudeFlareService],
+  exports: [CloudeFlareService],
 })
 export class CloudeFlareModule {}
