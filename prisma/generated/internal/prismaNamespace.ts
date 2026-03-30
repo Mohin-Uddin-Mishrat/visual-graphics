@@ -384,6 +384,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
+  ClientAsset: 'ClientAsset',
   Job: 'Job',
   Application: 'Application'
 } as const
@@ -401,10 +402,84 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "job" | "application"
+    modelProps: "clientAsset" | "job" | "application"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
+    ClientAsset: {
+      payload: Prisma.$ClientAssetPayload<ExtArgs>
+      fields: Prisma.ClientAssetFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ClientAssetFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientAssetPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ClientAssetFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientAssetPayload>
+        }
+        findFirst: {
+          args: Prisma.ClientAssetFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientAssetPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ClientAssetFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientAssetPayload>
+        }
+        findMany: {
+          args: Prisma.ClientAssetFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientAssetPayload>[]
+        }
+        create: {
+          args: Prisma.ClientAssetCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientAssetPayload>
+        }
+        createMany: {
+          args: Prisma.ClientAssetCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ClientAssetCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientAssetPayload>[]
+        }
+        delete: {
+          args: Prisma.ClientAssetDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientAssetPayload>
+        }
+        update: {
+          args: Prisma.ClientAssetUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientAssetPayload>
+        }
+        deleteMany: {
+          args: Prisma.ClientAssetDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ClientAssetUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ClientAssetUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientAssetPayload>[]
+        }
+        upsert: {
+          args: Prisma.ClientAssetUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientAssetPayload>
+        }
+        aggregate: {
+          args: Prisma.ClientAssetAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateClientAsset>
+        }
+        groupBy: {
+          args: Prisma.ClientAssetGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ClientAssetGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ClientAssetCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ClientAssetCountAggregateOutputType> | number
+        }
+      }
+    }
     Job: {
       payload: Prisma.$JobPayload<ExtArgs>
       fields: Prisma.JobFieldRefs
@@ -592,6 +667,17 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const ClientAssetScalarFieldEnum = {
+  id: 'id',
+  clientName: 'clientName',
+  imageUrl: 'imageUrl',
+  createdAt: 'createdAt',
+  isClientSent: 'isClientSent'
+} as const
+
+export type ClientAssetScalarFieldEnum = (typeof ClientAssetScalarFieldEnum)[keyof typeof ClientAssetScalarFieldEnum]
+
+
 export const JobScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -674,6 +760,13 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -785,6 +878,7 @@ export type PrismaClientOptions = ({
   comments?: runtime.SqlCommenterPlugin[]
 }
 export type GlobalOmitConfig = {
+  clientAsset?: Prisma.ClientAssetOmit
   job?: Prisma.JobOmit
   application?: Prisma.ApplicationOmit
 }
