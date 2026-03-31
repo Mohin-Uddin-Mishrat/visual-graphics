@@ -22,13 +22,3 @@ export * from './enums';
  * 
  */
 export type ClientAsset = Prisma.ClientAssetModel
-/**
- * Model Job
- * 
- */
-export type Job = Prisma.JobModel
-/**
- * Model Application
- * 
- */
-export type Application = Prisma.ApplicationModel

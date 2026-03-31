@@ -61,7 +61,6 @@ export class CloudeFlareService {
 
     return this.prisma.client.clientAsset.create({
       data: {
-        clientName: dto.clientName,
         imageUrl: upload.url,
         isClientSent: dto.isClientSent ?? false,
       },

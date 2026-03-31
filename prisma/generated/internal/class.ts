@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.2.0",
   "engineVersion": "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3",
   "activeProvider": "postgresql",
-  "inlineSchema": "model ClientAsset {\n  id           String   @id @default(uuid()) // Changed type to String for UUID\n  clientName   String\n  imageUrl     String\n  createdAt    DateTime @default(now())\n  isClientSent Boolean  @default(false) // false = NO, true = YES\n}\n\nmodel Job {\n  id           String        @id @default(uuid())\n  title        String\n  company      String\n  location     String\n  logo         String?\n  category     String\n  description  String\n  createdAt    DateTime      @default(now()) @map(\"created_at\")\n  applications Application[]\n\n  @@map(\"job\")\n}\n\nmodel Application {\n  id         String   @id @default(uuid())\n  jobId      String   @map(\"job_id\")\n  name       String\n  email      String\n  resumeLink String   @map(\"resume_link\")\n  coverNote  String?  @map(\"cover_note\")\n  createdAt  DateTime @default(now()) @map(\"created_at\")\n  job        Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)\n\n  @@unique([jobId, email])\n  @@map(\"application\")\n}\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n",
+  "inlineSchema": "model ClientAsset {\n  id           String   @id @default(uuid()) // Changed type to String for UUID\n  imageUrl     String\n  createdAt    DateTime @default(now())\n  isClientSent Boolean  @default(false) // false = NO, true = YES\n}\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"ClientAsset\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"clientName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"imageUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"isClientSent\",\"kind\":\"scalar\",\"type\":\"Boolean\"}],\"dbName\":null},\"Job\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"company\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"location\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"logo\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"category\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"applications\",\"kind\":\"object\",\"type\":\"Application\",\"relationName\":\"ApplicationToJob\"}],\"dbName\":\"job\"},\"Application\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"jobId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"job_id\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"resumeLink\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"resume_link\"},{\"name\":\"coverNote\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"cover_note\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"job\",\"kind\":\"object\",\"type\":\"Job\",\"relationName\":\"ApplicationToJob\"}],\"dbName\":\"application\"}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"ClientAsset\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"imageUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"isClientSent\",\"kind\":\"scalar\",\"type\":\"Boolean\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -183,26 +183,6 @@ export interface PrismaClient<
     * ```
     */
   get clientAsset(): Prisma.ClientAssetDelegate<ExtArgs, { omit: OmitOpts }>;
-
-  /**
-   * `prisma.job`: Exposes CRUD operations for the **Job** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Jobs
-    * const jobs = await prisma.job.findMany()
-    * ```
-    */
-  get job(): Prisma.JobDelegate<ExtArgs, { omit: OmitOpts }>;
-
-  /**
-   * `prisma.application`: Exposes CRUD operations for the **Application** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Applications
-    * const applications = await prisma.application.findMany()
-    * ```
-    */
-  get application(): Prisma.ApplicationDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {

@@ -26,7 +26,6 @@ export type AggregateClientAsset = {
 
 export type ClientAssetMinAggregateOutputType = {
   id: string | null
-  clientName: string | null
   imageUrl: string | null
   createdAt: Date | null
   isClientSent: boolean | null
@@ -34,7 +33,6 @@ export type ClientAssetMinAggregateOutputType = {
 
 export type ClientAssetMaxAggregateOutputType = {
   id: string | null
-  clientName: string | null
   imageUrl: string | null
   createdAt: Date | null
   isClientSent: boolean | null
@@ -42,7 +40,6 @@ export type ClientAssetMaxAggregateOutputType = {
 
 export type ClientAssetCountAggregateOutputType = {
   id: number
-  clientName: number
   imageUrl: number
   createdAt: number
   isClientSent: number
@@ -52,7 +49,6 @@ export type ClientAssetCountAggregateOutputType = {
 
 export type ClientAssetMinAggregateInputType = {
   id?: true
-  clientName?: true
   imageUrl?: true
   createdAt?: true
   isClientSent?: true
@@ -60,7 +56,6 @@ export type ClientAssetMinAggregateInputType = {
 
 export type ClientAssetMaxAggregateInputType = {
   id?: true
-  clientName?: true
   imageUrl?: true
   createdAt?: true
   isClientSent?: true
@@ -68,7 +63,6 @@ export type ClientAssetMaxAggregateInputType = {
 
 export type ClientAssetCountAggregateInputType = {
   id?: true
-  clientName?: true
   imageUrl?: true
   createdAt?: true
   isClientSent?: true
@@ -149,7 +143,6 @@ export type ClientAssetGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 
 export type ClientAssetGroupByOutputType = {
   id: string
-  clientName: string
   imageUrl: string
   createdAt: Date
   isClientSent: boolean
@@ -178,7 +171,6 @@ export type ClientAssetWhereInput = {
   OR?: Prisma.ClientAssetWhereInput[]
   NOT?: Prisma.ClientAssetWhereInput | Prisma.ClientAssetWhereInput[]
   id?: Prisma.StringFilter<"ClientAsset"> | string
-  clientName?: Prisma.StringFilter<"ClientAsset"> | string
   imageUrl?: Prisma.StringFilter<"ClientAsset"> | string
   createdAt?: Prisma.DateTimeFilter<"ClientAsset"> | Date | string
   isClientSent?: Prisma.BoolFilter<"ClientAsset"> | boolean
@@ -186,7 +178,6 @@ export type ClientAssetWhereInput = {
 
 export type ClientAssetOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  clientName?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   isClientSent?: Prisma.SortOrder
@@ -197,7 +188,6 @@ export type ClientAssetWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ClientAssetWhereInput | Prisma.ClientAssetWhereInput[]
   OR?: Prisma.ClientAssetWhereInput[]
   NOT?: Prisma.ClientAssetWhereInput | Prisma.ClientAssetWhereInput[]
-  clientName?: Prisma.StringFilter<"ClientAsset"> | string
   imageUrl?: Prisma.StringFilter<"ClientAsset"> | string
   createdAt?: Prisma.DateTimeFilter<"ClientAsset"> | Date | string
   isClientSent?: Prisma.BoolFilter<"ClientAsset"> | boolean
@@ -205,7 +195,6 @@ export type ClientAssetWhereUniqueInput = Prisma.AtLeast<{
 
 export type ClientAssetOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  clientName?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   isClientSent?: Prisma.SortOrder
@@ -219,7 +208,6 @@ export type ClientAssetScalarWhereWithAggregatesInput = {
   OR?: Prisma.ClientAssetScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ClientAssetScalarWhereWithAggregatesInput | Prisma.ClientAssetScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"ClientAsset"> | string
-  clientName?: Prisma.StringWithAggregatesFilter<"ClientAsset"> | string
   imageUrl?: Prisma.StringWithAggregatesFilter<"ClientAsset"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ClientAsset"> | Date | string
   isClientSent?: Prisma.BoolWithAggregatesFilter<"ClientAsset"> | boolean
@@ -227,7 +215,6 @@ export type ClientAssetScalarWhereWithAggregatesInput = {
 
 export type ClientAssetCreateInput = {
   id?: string
-  clientName: string
   imageUrl: string
   createdAt?: Date | string
   isClientSent?: boolean
@@ -235,7 +222,6 @@ export type ClientAssetCreateInput = {
 
 export type ClientAssetUncheckedCreateInput = {
   id?: string
-  clientName: string
   imageUrl: string
   createdAt?: Date | string
   isClientSent?: boolean
@@ -243,7 +229,6 @@ export type ClientAssetUncheckedCreateInput = {
 
 export type ClientAssetUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  clientName?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isClientSent?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -251,7 +236,6 @@ export type ClientAssetUpdateInput = {
 
 export type ClientAssetUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  clientName?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isClientSent?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -259,7 +243,6 @@ export type ClientAssetUncheckedUpdateInput = {
 
 export type ClientAssetCreateManyInput = {
   id?: string
-  clientName: string
   imageUrl: string
   createdAt?: Date | string
   isClientSent?: boolean
@@ -267,7 +250,6 @@ export type ClientAssetCreateManyInput = {
 
 export type ClientAssetUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  clientName?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isClientSent?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -275,7 +257,6 @@ export type ClientAssetUpdateManyMutationInput = {
 
 export type ClientAssetUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  clientName?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isClientSent?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -283,7 +264,6 @@ export type ClientAssetUncheckedUpdateManyInput = {
 
 export type ClientAssetCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  clientName?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   isClientSent?: Prisma.SortOrder
@@ -291,7 +271,6 @@ export type ClientAssetCountOrderByAggregateInput = {
 
 export type ClientAssetMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  clientName?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   isClientSent?: Prisma.SortOrder
@@ -299,7 +278,6 @@ export type ClientAssetMaxOrderByAggregateInput = {
 
 export type ClientAssetMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  clientName?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   isClientSent?: Prisma.SortOrder
@@ -321,7 +299,6 @@ export type BoolFieldUpdateOperationsInput = {
 
 export type ClientAssetSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  clientName?: boolean
   imageUrl?: boolean
   createdAt?: boolean
   isClientSent?: boolean
@@ -329,7 +306,6 @@ export type ClientAssetSelect<ExtArgs extends runtime.Types.Extensions.InternalA
 
 export type ClientAssetSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  clientName?: boolean
   imageUrl?: boolean
   createdAt?: boolean
   isClientSent?: boolean
@@ -337,7 +313,6 @@ export type ClientAssetSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
 
 export type ClientAssetSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  clientName?: boolean
   imageUrl?: boolean
   createdAt?: boolean
   isClientSent?: boolean
@@ -345,20 +320,18 @@ export type ClientAssetSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
 
 export type ClientAssetSelectScalar = {
   id?: boolean
-  clientName?: boolean
   imageUrl?: boolean
   createdAt?: boolean
   isClientSent?: boolean
 }
 
-export type ClientAssetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "clientName" | "imageUrl" | "createdAt" | "isClientSent", ExtArgs["result"]["clientAsset"]>
+export type ClientAssetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "imageUrl" | "createdAt" | "isClientSent", ExtArgs["result"]["clientAsset"]>
 
 export type $ClientAssetPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ClientAsset"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    clientName: string
     imageUrl: string
     createdAt: Date
     isClientSent: boolean
@@ -786,7 +759,6 @@ export interface Prisma__ClientAssetClient<T, Null = never, ExtArgs extends runt
  */
 export interface ClientAssetFieldRefs {
   readonly id: Prisma.FieldRef<"ClientAsset", 'String'>
-  readonly clientName: Prisma.FieldRef<"ClientAsset", 'String'>
   readonly imageUrl: Prisma.FieldRef<"ClientAsset", 'String'>
   readonly createdAt: Prisma.FieldRef<"ClientAsset", 'DateTime'>
   readonly isClientSent: Prisma.FieldRef<"ClientAsset", 'Boolean'>

@@ -51,9 +51,7 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  ClientAsset: 'ClientAsset',
-  Job: 'Job',
-  Application: 'Application'
+  ClientAsset: 'ClientAsset'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -74,40 +72,12 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 export const ClientAssetScalarFieldEnum = {
   id: 'id',
-  clientName: 'clientName',
   imageUrl: 'imageUrl',
   createdAt: 'createdAt',
   isClientSent: 'isClientSent'
 } as const
 
 export type ClientAssetScalarFieldEnum = (typeof ClientAssetScalarFieldEnum)[keyof typeof ClientAssetScalarFieldEnum]
-
-
-export const JobScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  company: 'company',
-  location: 'location',
-  logo: 'logo',
-  category: 'category',
-  description: 'description',
-  createdAt: 'createdAt'
-} as const
-
-export type JobScalarFieldEnum = (typeof JobScalarFieldEnum)[keyof typeof JobScalarFieldEnum]
-
-
-export const ApplicationScalarFieldEnum = {
-  id: 'id',
-  jobId: 'jobId',
-  name: 'name',
-  email: 'email',
-  resumeLink: 'resumeLink',
-  coverNote: 'coverNote',
-  createdAt: 'createdAt'
-} as const
-
-export type ApplicationScalarFieldEnum = (typeof ApplicationScalarFieldEnum)[keyof typeof ApplicationScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -124,12 +94,4 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
-
-
-export const NullsOrder = {
-  first: 'first',
-  last: 'last'
-} as const
-
-export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

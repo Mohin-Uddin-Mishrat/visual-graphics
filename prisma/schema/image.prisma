@@ -1,6 +1,5 @@
 model ClientAsset {
   id          String   @id @default(uuid()) // Changed type to String for UUID
-  clientName  String
   imageUrl    String
   createdAt   DateTime @default(now())
   isClientSent Boolean  @default(false) // false = NO, true = YES

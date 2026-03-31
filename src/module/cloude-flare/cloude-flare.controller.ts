@@ -65,12 +65,9 @@ export class CloudeFlareController {
   @ApiBody({
     schema: {
       type: 'object',
-      required: ['clientName', 'file'],
+      required: ['file'],
       properties: {
-        clientName: {
-          type: 'string',
-          example: 'Acme Corporation',
-        },
+    
         isClientSent: {
           type: 'boolean',
           example: false,
