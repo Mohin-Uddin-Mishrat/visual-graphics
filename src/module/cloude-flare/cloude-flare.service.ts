@@ -16,6 +16,12 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateClientAssetDto } from './dto/create-client-asset.dto';
 import { GetClientAssetsQueryDto } from './dto/get-client-assets-query.dto';
 
+const ZIP_MIME_TYPES = new Set([
+  'application/zip',
+  'application/x-zip-compressed',
+  'multipart/x-zip',
+]);
+
 @Injectable()
 export class CloudeFlareService {
   private readonly bucketName: string;
@@ -50,11 +56,11 @@ export class CloudeFlareService {
     file: Express.Multer.File,
   ) {
     if (!file) {
-      throw new BadRequestException('Image file is required');
+      throw new BadRequestException('An asset file is required');
     }
 
-    if (!file.mimetype?.startsWith('image/')) {
-      throw new BadRequestException('Only image files are allowed');
+    if (!this.isSupportedClientAsset(file)) {
+      throw new BadRequestException('Only image and zip files are allowed');
     }
 
     const upload = await this.uploadFile(file, 'client-assets');
@@ -203,6 +209,21 @@ export class CloudeFlareService {
 
   private sanitizeFileName(fileName: string) {
     return fileName.replace(/[^a-zA-Z0-9.-]/g, '-');
+  }
+
+  private isSupportedClientAsset(file: Express.Multer.File) {
+    const mimeType = file.mimetype?.toLowerCase();
+
+    if (mimeType?.startsWith('image/')) {
+      return true;
+    }
+
+    if (mimeType && ZIP_MIME_TYPES.has(mimeType)) {
+      return true;
+    }
+
+    const extension = file.originalname.split('.').pop()?.toLowerCase();
+    return extension === 'zip';
   }
 
   private extractFileName(objectKey: string) {

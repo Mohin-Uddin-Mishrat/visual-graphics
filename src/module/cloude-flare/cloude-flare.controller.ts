@@ -60,14 +60,15 @@ export class CloudeFlareController {
   }
 
   @Post('client-assets')
-  @ApiOperation({ summary: 'Upload a client asset to Cloudflare R2' })
+  @ApiOperation({
+    summary: 'Upload an image or zip client asset to Cloudflare R2',
+  })
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     schema: {
       type: 'object',
       required: ['file'],
       properties: {
-    
         isClientSent: {
           type: 'boolean',
           example: false,
@@ -75,6 +76,7 @@ export class CloudeFlareController {
         file: {
           type: 'string',
           format: 'binary',
+          description: 'Supported formats: images and .zip archives',
         },
       },
     },
