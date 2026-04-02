@@ -51,7 +51,7 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  ClientAsset: 'ClientAsset'
+  User: 'User'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -70,14 +70,17 @@ export const TransactionIsolationLevel = {
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const ClientAssetScalarFieldEnum = {
+export const UserScalarFieldEnum = {
   id: 'id',
-  imageUrl: 'imageUrl',
+  name: 'name',
+  email: 'email',
+  password: 'password',
+  role: 'role',
   createdAt: 'createdAt',
-  isClientSent: 'isClientSent'
+  updatedAt: 'updatedAt'
 } as const
 
-export type ClientAssetScalarFieldEnum = (typeof ClientAssetScalarFieldEnum)[keyof typeof ClientAssetScalarFieldEnum]
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
 export const SortOrder = {
