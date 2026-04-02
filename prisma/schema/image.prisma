@@ -1,15 +1,6 @@
-
-enum Role {
-  USER
-  ADMIN
-}
-
-model User {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique // Email should be a String, not DateTime
-  password  String
-  role      String   @default("USER") // You need to specify a type (String or Enum)
-  createdAt DateTime @default(now()) // Corrected field name and type
-  updatedAt DateTime @updatedAt      // Recommended for tracking updates
+model ClientAsset {
+  id          String   @id @default(uuid()) // Changed type to String for UUID
+  imageUrl    String
+  createdAt   DateTime @default(now())
+  isClientSent Boolean  @default(false) // false = NO, true = YES
 }

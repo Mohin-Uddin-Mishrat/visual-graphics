@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { PrismaModule } from './module/prisma/prisma.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CloudeFlareModule } from './module/cloude-flare/cloude-flare.module';
+import { AuthModule } from './module/auth/auth.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { CloudeFlareModule } from './module/cloude-flare/cloude-flare.module';
     }),
     PrismaModule,
     CloudeFlareModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

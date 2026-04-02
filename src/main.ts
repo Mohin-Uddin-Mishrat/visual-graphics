@@ -2,8 +2,8 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
 import { PrismaService } from './module/prisma/prisma.service';
-// import { JwtGuard } from './common/guards/jwt.guard';
-// import { RolesGuard } from './common/guards/roles.guard';
+import { JwtGuard } from './common/guards/jwt.guard';
+import { RolesGuard } from './common/guards/roles.guard';
 import { setupSwagger } from './swagger/swagger.setup';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -32,10 +32,10 @@ async function bootstrap() {
   const reflector = app.get(Reflector);
   const prisma = app.get(PrismaService);
 
-  // app.useGlobalGuards(
-  //   new JwtGuard(reflector, prisma),
-  //   new RolesGuard(reflector),
-  // );
+  app.useGlobalGuards(
+    new JwtGuard(reflector, prisma),
+    new RolesGuard(reflector),
+  );
 
   app.setGlobalPrefix('api/v1');
 

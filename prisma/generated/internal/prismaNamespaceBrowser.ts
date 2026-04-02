@@ -51,6 +51,7 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  ClientAsset: 'ClientAsset',
   User: 'User'
 } as const
 
@@ -68,6 +69,16 @@ export const TransactionIsolationLevel = {
 } as const
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const ClientAssetScalarFieldEnum = {
+  id: 'id',
+  imageUrl: 'imageUrl',
+  createdAt: 'createdAt',
+  isClientSent: 'isClientSent'
+} as const
+
+export type ClientAssetScalarFieldEnum = (typeof ClientAssetScalarFieldEnum)[keyof typeof ClientAssetScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
