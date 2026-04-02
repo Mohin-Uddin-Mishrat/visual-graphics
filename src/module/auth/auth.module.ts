@@ -6,10 +6,12 @@ import { type StringValue } from 'ms';
 import { AuthController } from './auth.controller';
 import { AuthSeeder } from './auth.seeder';
 import { AuthService } from './auth.service';
+import { MailModule } from '../mail/mail.module';
 import { JwtStrategy } from './strategy/jwt.strategy';
 
 @Module({
   imports: [
+    MailModule,
     PassportModule,
     JwtModule.registerAsync({
       inject: [ConfigService],
@@ -18,7 +20,7 @@ import { JwtStrategy } from './strategy/jwt.strategy';
         signOptions: {
           expiresIn:
             (configService.get<string>('JWT_EXPIRES_IN') as StringValue) ||
-            '7d',
+            '300d',
         },
       }),
     }),

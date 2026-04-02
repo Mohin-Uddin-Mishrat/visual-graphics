@@ -1,5 +1,6 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { Prisma } from '@prisma';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -13,7 +14,21 @@ export class AuthSeeder implements OnModuleInit {
   ) {}
 
   async onModuleInit() {
-    await this.seedAdmin();
+    try {
+      await this.seedAdmin();
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2021'
+      ) {
+        this.logger.warn(
+          'Admin seeding skipped because the User table does not exist yet. Run your Prisma migration or db push first.',
+        );
+        return;
+      }
+
+      throw error;
+    }
   }
 
   private async seedAdmin() {

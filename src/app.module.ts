@@ -5,6 +5,7 @@ import { PrismaModule } from './module/prisma/prisma.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CloudeFlareModule } from './module/cloude-flare/cloude-flare.module';
 import { AuthModule } from './module/auth/auth.module';
+import { MailModule } from './module/mail/mail.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { AuthModule } from './module/auth/auth.module';
       isGlobal: true,
     }),
     PrismaModule,
+    MailModule,
     CloudeFlareModule,
     AuthModule,
   ],

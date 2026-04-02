@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsOptional,
   IsString,
@@ -7,9 +7,8 @@ import {
 } from 'class-validator';
 
 export class ChangePasswordDto {
-  @ApiProperty({ example: 'OldPassword123', required: false })
+  @ApiPropertyOptional({ example: 'OldPassword123' })
   @IsOptional()
-  @ValidateIf((_, value) => value !== undefined)
   @IsString()
   @MinLength(6)
   oldPassword?: string;

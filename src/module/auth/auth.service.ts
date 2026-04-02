@@ -3,11 +3,14 @@ import {
   ConflictException,
   ForbiddenException,
   Injectable,
+  InternalServerErrorException,
+  Logger,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { MailService } from '../mail/mail.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { ChangeRoleDto } from './dto/change-role.dto';
@@ -18,9 +21,12 @@ import { JwtPayload } from './strategy/jwt.strategy';
 
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name);
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
+    private readonly mailService: MailService,
   ) {}
 
   async createUser(dto: CreateUserDto) {
@@ -33,7 +39,6 @@ export class AuthService {
     }
 
     const hashedPassword = await bcrypt.hash(dto.password, 10);
-
     const user = await this.prisma.client.user.create({
       data: {
         name: dto.name,
@@ -42,6 +47,30 @@ export class AuthService {
         role: dto.role ?? 'USER',
       },
     });
+
+    // try {
+    //   await this.mailService.sendNewUserCredentialsMail({
+    //     email: user.email,
+    //     password: dto.password,
+    //     fullName: user.name,
+    //   });
+    // } catch (error) {
+    //   const message =
+    //     error instanceof Error ? error.message : 'Unknown mail error';
+
+    //   this.logger.error(
+    //     `Failed to send credentials email to ${user.email}: ${message}`,
+    //     error instanceof Error ? error.stack : undefined,
+    //   );
+
+    //   await this.prisma.client.user.delete({
+    //     where: { id: user.id },
+    //   });
+
+    //   throw new InternalServerErrorException(
+    //     `User creation failed because the credentials email could not be sent: ${message}`,
+    //   );
+    // }
 
     return this.excludePassword(user);
   }

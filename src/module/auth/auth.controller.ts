@@ -33,7 +33,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('users')
-  @Public()
+  @Roles('ADMIN')
   @ApiOperation({ summary: 'Create user' })
   async createUser(@Body() dto: CreateUserDto, @Res() res: Response) {
     const result = await this.authService.createUser(dto);
