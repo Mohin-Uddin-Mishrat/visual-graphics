@@ -10,6 +10,26 @@ export type JwtPayload = {
   role: string;
 };
 
+const extractJwtFromCookie = (req: { headers?: { cookie?: string } }) => {
+  const cookieHeader = req?.headers?.cookie;
+
+  if (!cookieHeader) {
+    return null;
+  }
+
+  const cookies = cookieHeader.split(';');
+
+  for (const cookie of cookies) {
+    const [name, ...valueParts] = cookie.trim().split('=');
+
+    if (name === 'access_token') {
+      return decodeURIComponent(valueParts.join('='));
+    }
+  }
+
+  return null;
+};
+
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
@@ -17,7 +37,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     private readonly prisma: PrismaService,
   ) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        extractJwtFromCookie,
+        ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ]),
       ignoreExpiration: false,
       secretOrKey: configService.get<string>('JWT_SECRET') || 'secret',
     });

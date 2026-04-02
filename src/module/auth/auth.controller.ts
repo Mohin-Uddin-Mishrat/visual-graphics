@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   HttpStatus,
+  UnauthorizedException,
   Param,
   Patch,
   Post,
@@ -12,6 +13,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiCookieAuth,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
@@ -28,9 +30,24 @@ import { UpdateUserDto } from './dto/update-user.dto';
 
 @ApiTags('Auth')
 @ApiBearerAuth('auth')
+@ApiCookieAuth('access_token')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  private getAccessTokenCookieOptions(req: Request) {
+    const origin = req.get('origin') ?? '';
+    const isLocalhostOrigin = origin.includes('localhost');
+    const isProductionCookie = Boolean(origin) && !isLocalhostOrigin;
+
+    return {
+      httpOnly: true,
+      secure: isProductionCookie,
+      sameSite: (isProductionCookie ? 'none' : 'lax') as 'none' | 'lax',
+      maxAge: 1000 * 60 * 60 * 24 * 365,
+      path: '/',
+    };
+  }
 
   @Post('users')
   @Roles('ADMIN')
@@ -49,14 +66,37 @@ export class AuthController {
   @Post('login')
   @Public()
   @ApiOperation({ summary: 'Login user' })
-  async loginUser(@Body() dto: LoginUserDto, @Res() res: Response) {
+  async loginUser(
+    @Body() dto: LoginUserDto,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
     const result = await this.authService.loginUser(dto);
+    res.cookie(
+      'access_token',
+      result.accessToken,
+      this.getAccessTokenCookieOptions(req),
+    );
 
     return sendResponse(res, {
       statusCode: HttpStatus.OK,
       success: true,
       message: 'User logged in successfully',
       data: result,
+    });
+  }
+
+  @Post('logout')
+  @Public()
+  @ApiOperation({ summary: 'Logout user' })
+  logoutUser(@Req() req: Request, @Res() res: Response) {
+    res.clearCookie('access_token', this.getAccessTokenCookieOptions(req));
+
+    return sendResponse(res, {
+      statusCode: HttpStatus.OK,
+      success: true,
+      message: 'User logged out successfully',
+      data: null,
     });
   }
 
@@ -70,6 +110,23 @@ export class AuthController {
       statusCode: HttpStatus.OK,
       success: true,
       message: 'Users retrieved successfully',
+      data: result,
+    });
+  }
+
+  @Get('me')
+  @ApiOperation({ summary: 'Get logged in user' })
+  async getMe(@Req() req: Request, @Res() res: Response) {
+    if (!req.user) {
+      throw new UnauthorizedException('Unauthorized access');
+    }
+
+    const result = await this.authService.getSpecificUser(req.user.id, req.user);
+
+    return sendResponse(res, {
+      statusCode: HttpStatus.OK,
+      success: true,
+      message: 'Logged in user retrieved successfully',
       data: result,
     });
   }
