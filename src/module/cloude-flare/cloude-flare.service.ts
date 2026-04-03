@@ -85,9 +85,13 @@ export class CloudeFlareService {
     });
   }
 
-  async getClientAssetById(id: number) {
-    const asset = await this.prisma.client.clientAsset.findUnique({
-      where: { id },
+  async getClientAssetByFileName(fileName: string) {
+    const asset = await this.prisma.client.clientAsset.findFirst({
+      where: {
+        imageUrl: {
+          endsWith: `/${fileName}`,
+        },
+      },
     });
 
     if (!asset) {

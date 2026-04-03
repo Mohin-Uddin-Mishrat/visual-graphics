@@ -30,7 +30,7 @@ import { GetClientAssetsQueryDto } from './dto/get-client-assets-query.dto';
 @ApiTags('Cloudflare')
 @Controller('cloude-flare')
 export class CloudeFlareController {
-  constructor(private readonly cloudeFlareService: CloudeFlareService) {}
+  constructor(private readonly cloudeFlareService: CloudeFlareService) { }
 
   @Get('client-assets')
   @ApiOperation({ summary: 'Get all client assets' })
@@ -48,14 +48,16 @@ export class CloudeFlareController {
     });
   }
 
-  @Get('client-assets/:id')
+  @Get('client-assets/:fileName')
   @Public()
-  @ApiOperation({ summary: 'Get a single client asset' })
-  async getClientAssetById(
-    @Param('id', ParseIntPipe) id: number,
+  @ApiOperation({ summary: 'Get a single client asset by file name' })
+  async getClientAssetByFileName(
+    @Param('fileName') fileName: string,
     @Res() res: Response,
   ) {
-    const result = await this.cloudeFlareService.getClientAssetById(id);
+    const result = await this.cloudeFlareService.getClientAssetByFileName(
+      fileName,
+    );
 
     return sendResponse(res, {
       statusCode: HttpStatus.OK,
@@ -66,6 +68,7 @@ export class CloudeFlareController {
   }
 
   @Post('client-assets')
+  @Public()
   @ApiOperation({
     summary: 'Upload an image or zip client asset to Cloudflare R2',
   })
@@ -120,6 +123,7 @@ export class CloudeFlareController {
   }
 
   @Get('client-assets/:id/download')
+  @Public()
   @ApiOperation({ summary: 'Download a client asset from Cloudflare R2' })
   @ApiProduces('application/octet-stream')
   async downloadClientAsset(
