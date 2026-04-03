@@ -20,6 +20,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Response } from 'express';
+import { Public } from 'src/common/decorators/public.decorators';
 import sendResponse from '../utils/sendResponse';
 import { CloudeFlareService } from './cloude-flare.service';
 import { CreateClientAssetDto } from './dto/create-client-asset.dto';
@@ -47,6 +48,7 @@ export class CloudeFlareController {
   }
 
   @Get('client-assets/:id')
+  @Public()
   @ApiOperation({ summary: 'Get a single client asset' })
   async getClientAssetById(@Param('id') id: string, @Res() res: Response) {
     const result = await this.cloudeFlareService.getClientAssetById(id);
