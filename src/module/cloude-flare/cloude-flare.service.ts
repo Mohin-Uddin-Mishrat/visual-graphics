@@ -85,7 +85,7 @@ export class CloudeFlareService {
     });
   }
 
-  async getClientAssetById(id: string) {
+  async getClientAssetById(id: number) {
     const asset = await this.prisma.client.clientAsset.findUnique({
       where: { id },
     });
@@ -97,7 +97,7 @@ export class CloudeFlareService {
     return asset;
   }
 
-  async deleteClientAsset(id: string) {
+  async deleteClientAsset(id: number) {
     const asset = await this.prisma.client.clientAsset.findUnique({
       where: { id },
     });
@@ -116,7 +116,7 @@ export class CloudeFlareService {
     return { id };
   }
 
-  async downloadClientAsset(id: string) {
+  async downloadClientAsset(id: number) {
     const asset = await this.prisma.client.clientAsset.findUnique({
       where: { id },
     });

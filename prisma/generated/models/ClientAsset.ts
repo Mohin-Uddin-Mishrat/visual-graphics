@@ -20,19 +20,29 @@ export type ClientAssetModel = runtime.Types.Result.DefaultSelection<Prisma.$Cli
 
 export type AggregateClientAsset = {
   _count: ClientAssetCountAggregateOutputType | null
+  _avg: ClientAssetAvgAggregateOutputType | null
+  _sum: ClientAssetSumAggregateOutputType | null
   _min: ClientAssetMinAggregateOutputType | null
   _max: ClientAssetMaxAggregateOutputType | null
 }
 
+export type ClientAssetAvgAggregateOutputType = {
+  id: number | null
+}
+
+export type ClientAssetSumAggregateOutputType = {
+  id: number | null
+}
+
 export type ClientAssetMinAggregateOutputType = {
-  id: string | null
+  id: number | null
   imageUrl: string | null
   createdAt: Date | null
   isClientSent: boolean | null
 }
 
 export type ClientAssetMaxAggregateOutputType = {
-  id: string | null
+  id: number | null
   imageUrl: string | null
   createdAt: Date | null
   isClientSent: boolean | null
@@ -46,6 +56,14 @@ export type ClientAssetCountAggregateOutputType = {
   _all: number
 }
 
+
+export type ClientAssetAvgAggregateInputType = {
+  id?: true
+}
+
+export type ClientAssetSumAggregateInputType = {
+  id?: true
+}
 
 export type ClientAssetMinAggregateInputType = {
   id?: true
@@ -107,6 +125,18 @@ export type ClientAssetAggregateArgs<ExtArgs extends runtime.Types.Extensions.In
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: ClientAssetAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: ClientAssetSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: ClientAssetMinAggregateInputType
@@ -137,16 +167,20 @@ export type ClientAssetGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   _count?: ClientAssetCountAggregateInputType | true
+  _avg?: ClientAssetAvgAggregateInputType
+  _sum?: ClientAssetSumAggregateInputType
   _min?: ClientAssetMinAggregateInputType
   _max?: ClientAssetMaxAggregateInputType
 }
 
 export type ClientAssetGroupByOutputType = {
-  id: string
+  id: number
   imageUrl: string
   createdAt: Date
   isClientSent: boolean
   _count: ClientAssetCountAggregateOutputType | null
+  _avg: ClientAssetAvgAggregateOutputType | null
+  _sum: ClientAssetSumAggregateOutputType | null
   _min: ClientAssetMinAggregateOutputType | null
   _max: ClientAssetMaxAggregateOutputType | null
 }
@@ -170,7 +204,7 @@ export type ClientAssetWhereInput = {
   AND?: Prisma.ClientAssetWhereInput | Prisma.ClientAssetWhereInput[]
   OR?: Prisma.ClientAssetWhereInput[]
   NOT?: Prisma.ClientAssetWhereInput | Prisma.ClientAssetWhereInput[]
-  id?: Prisma.StringFilter<"ClientAsset"> | string
+  id?: Prisma.IntFilter<"ClientAsset"> | number
   imageUrl?: Prisma.StringFilter<"ClientAsset"> | string
   createdAt?: Prisma.DateTimeFilter<"ClientAsset"> | Date | string
   isClientSent?: Prisma.BoolFilter<"ClientAsset"> | boolean
@@ -184,7 +218,7 @@ export type ClientAssetOrderByWithRelationInput = {
 }
 
 export type ClientAssetWhereUniqueInput = Prisma.AtLeast<{
-  id?: string
+  id?: number
   AND?: Prisma.ClientAssetWhereInput | Prisma.ClientAssetWhereInput[]
   OR?: Prisma.ClientAssetWhereInput[]
   NOT?: Prisma.ClientAssetWhereInput | Prisma.ClientAssetWhereInput[]
@@ -199,64 +233,63 @@ export type ClientAssetOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   isClientSent?: Prisma.SortOrder
   _count?: Prisma.ClientAssetCountOrderByAggregateInput
+  _avg?: Prisma.ClientAssetAvgOrderByAggregateInput
   _max?: Prisma.ClientAssetMaxOrderByAggregateInput
   _min?: Prisma.ClientAssetMinOrderByAggregateInput
+  _sum?: Prisma.ClientAssetSumOrderByAggregateInput
 }
 
 export type ClientAssetScalarWhereWithAggregatesInput = {
   AND?: Prisma.ClientAssetScalarWhereWithAggregatesInput | Prisma.ClientAssetScalarWhereWithAggregatesInput[]
   OR?: Prisma.ClientAssetScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ClientAssetScalarWhereWithAggregatesInput | Prisma.ClientAssetScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"ClientAsset"> | string
+  id?: Prisma.IntWithAggregatesFilter<"ClientAsset"> | number
   imageUrl?: Prisma.StringWithAggregatesFilter<"ClientAsset"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ClientAsset"> | Date | string
   isClientSent?: Prisma.BoolWithAggregatesFilter<"ClientAsset"> | boolean
 }
 
 export type ClientAssetCreateInput = {
-  id?: string
   imageUrl: string
   createdAt?: Date | string
   isClientSent?: boolean
 }
 
 export type ClientAssetUncheckedCreateInput = {
-  id?: string
+  id?: number
   imageUrl: string
   createdAt?: Date | string
   isClientSent?: boolean
 }
 
 export type ClientAssetUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isClientSent?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type ClientAssetUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isClientSent?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type ClientAssetCreateManyInput = {
-  id?: string
+  id?: number
   imageUrl: string
   createdAt?: Date | string
   isClientSent?: boolean
 }
 
 export type ClientAssetUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isClientSent?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type ClientAssetUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isClientSent?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -267,6 +300,10 @@ export type ClientAssetCountOrderByAggregateInput = {
   imageUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   isClientSent?: Prisma.SortOrder
+}
+
+export type ClientAssetAvgOrderByAggregateInput = {
+  id?: Prisma.SortOrder
 }
 
 export type ClientAssetMaxOrderByAggregateInput = {
@@ -283,6 +320,10 @@ export type ClientAssetMinOrderByAggregateInput = {
   isClientSent?: Prisma.SortOrder
 }
 
+export type ClientAssetSumOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+}
+
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
@@ -293,6 +334,14 @@ export type DateTimeFieldUpdateOperationsInput = {
 
 export type BoolFieldUpdateOperationsInput = {
   set?: boolean
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 
@@ -331,7 +380,7 @@ export type $ClientAssetPayload<ExtArgs extends runtime.Types.Extensions.Interna
   name: "ClientAsset"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
+    id: number
     imageUrl: string
     createdAt: Date
     isClientSent: boolean
@@ -758,7 +807,7 @@ export interface Prisma__ClientAssetClient<T, Null = never, ExtArgs extends runt
  * Fields of the ClientAsset model
  */
 export interface ClientAssetFieldRefs {
-  readonly id: Prisma.FieldRef<"ClientAsset", 'String'>
+  readonly id: Prisma.FieldRef<"ClientAsset", 'Int'>
   readonly imageUrl: Prisma.FieldRef<"ClientAsset", 'String'>
   readonly createdAt: Prisma.FieldRef<"ClientAsset", 'DateTime'>
   readonly isClientSent: Prisma.FieldRef<"ClientAsset", 'Boolean'>

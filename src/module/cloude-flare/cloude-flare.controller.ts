@@ -5,6 +5,7 @@ import {
   Get,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Post,
   Query,
   Res,
@@ -50,7 +51,10 @@ export class CloudeFlareController {
   @Get('client-assets/:id')
   @Public()
   @ApiOperation({ summary: 'Get a single client asset' })
-  async getClientAssetById(@Param('id') id: string, @Res() res: Response) {
+  async getClientAssetById(
+    @Param('id', ParseIntPipe) id: number,
+    @Res() res: Response,
+  ) {
     const result = await this.cloudeFlareService.getClientAssetById(id);
 
     return sendResponse(res, {
@@ -101,7 +105,10 @@ export class CloudeFlareController {
 
   @Delete('client-assets/:id')
   @ApiOperation({ summary: 'Delete a client asset from Cloudflare R2' })
-  async deleteClientAsset(@Param('id') id: string, @Res() res: Response) {
+  async deleteClientAsset(
+    @Param('id', ParseIntPipe) id: number,
+    @Res() res: Response,
+  ) {
     const result = await this.cloudeFlareService.deleteClientAsset(id);
 
     return sendResponse(res, {
@@ -115,7 +122,10 @@ export class CloudeFlareController {
   @Get('client-assets/:id/download')
   @ApiOperation({ summary: 'Download a client asset from Cloudflare R2' })
   @ApiProduces('application/octet-stream')
-  async downloadClientAsset(@Param('id') id: string, @Res() res: Response) {
+  async downloadClientAsset(
+    @Param('id', ParseIntPipe) id: number,
+    @Res() res: Response,
+  ) {
     const file = await this.cloudeFlareService.downloadClientAsset(id);
 
     res.setHeader('Content-Type', file.contentType);

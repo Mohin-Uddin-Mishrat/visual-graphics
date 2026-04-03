@@ -61,7 +61,7 @@ describe('CloudeFlareService', () => {
     } as Express.Multer.File;
 
     const storedAsset = {
-      id: 'asset-id',
+      id: 1,
       imageUrl: 'https://cdn.example.com/client-assets/assets.zip',
       isClientSent: false,
     };
