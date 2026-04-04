@@ -8,6 +8,23 @@ import { setupSwagger } from './swagger/swagger.setup';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
+function parseCorsOrigins(value?: string) {
+  if (!value?.trim()) {
+    return [
+      'http://localhost:3000',
+      'http://localhost:5173',
+      'http://localhost:5174',
+      'https://visual-graphics-frontend.vercel.app',
+      'https://quick-hire-frontend-two.vercel.app',
+    ];
+  }
+
+  return value
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+}
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     rawBody: true,
@@ -15,16 +32,15 @@ async function bootstrap() {
   });
 
   const configService = app.get(ConfigService);
+  const port = Number(configService.get<string>('PORT') || 5000);
+  const host = configService.get<string>('HOST') || '0.0.0.0';
+  const corsOrigins = parseCorsOrigins(
+    configService.get<string>('CORS_ORIGINS'),
+  );
 
+  app.getHttpAdapter().getInstance().set('trust proxy', 1);
   app.enableCors({
-    origin: [
-      'http://localhost:3000',
-       'https://visual-graphics-frontend.vercel.app',
-      'http://localhost:5173',
-      'http://localhost:5174',
-      'https://quick-hire-frontend-two.vercel.app',
-      '*'
-    ],
+    origin: corsOrigins,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
@@ -49,6 +65,6 @@ async function bootstrap() {
   app.useGlobalFilters(new GlobalExceptionFilter());
 
   setupSwagger(app);
-  await app.listen(configService.get<string>('PORT') || 5000);
+  await app.listen(port, host);
 }
 bootstrap();

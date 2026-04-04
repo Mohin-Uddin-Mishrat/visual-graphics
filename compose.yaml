@@ -1,79 +1,60 @@
 services:
   api:
-    profiles: ['prod']
-    platform: linux/amd64
-    image: softvence/vandanakalra-backend:latest
-    container_name: ${PACKAGE_NAME}_api
+    build:
+      context: .
+    image: ${IMAGE_NAME:-visual-graphics-backend}:latest
+    container_name: ${COMPOSE_PROJECT_NAME:-visual-graphics}_api
     restart: always
     env_file:
       - .env
     environment:
       NODE_ENV: production
-      DATABASE_URL: postgresql://postgres:postgres@db:5432/${PACKAGE_NAME}_db
-
-      BASE_URL: http://0.0.0.0:3000
-      PORT: 3000
+      HOST: 0.0.0.0
+      PORT: ${CONTAINER_PORT:-3000}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-visual_graphics}}
     ports:
-      - '3000:3000'
+      - '127.0.0.1:${API_PORT:-3001}:${CONTAINER_PORT:-3000}'
     depends_on:
       db:
         condition: service_healthy
     command: >
       sh -c "
-        echo '🏁 Waiting for DB...';
+        echo 'Waiting for database...';
         sleep 5;
-        npx prisma migrate deploy;
-        echo '🚀 Starting app...';
-        npm run start
+        npm run db:deploy;
+        echo 'Starting API...';
+        npm run start:prod
       "
     volumes:
-      - files-data:/app/uploads
-      - temp-data:/app/tmp
-      - logs-data:/app/logs
+      - uploads-data:/app/uploads
 
   db:
-    profiles: ['dev', 'prod']
     image: postgres:17
-    container_name: ${PACKAGE_NAME}_db
+    container_name: ${COMPOSE_PROJECT_NAME:-visual-graphics}_db
     restart: always
     user: postgres
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: ${PACKAGE_NAME}_db
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-visual_graphics}
     volumes:
       - db_data:/var/lib/postgresql/data
     ports:
-      - '127.0.0.1:5434:5432'
+      - '127.0.0.1:${DB_PORT:-5435}:5432'
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      test:
+        [
+          'CMD-SHELL',
+          'pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-visual_graphics}',
+        ]
       interval: 10s
       timeout: 5s
       retries: 5
 
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: ${PACKAGE_NAME}_pgadmin
-    restart: always
-    profiles: ['prod']
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=${ADMIN_EMAIL}
-      - PGADMIN_DEFAULT_PASSWORD=${ADMIN_PASSWORD}
-      - SCRIPT_NAME=/pgadmin
-    ports:
-      - '8123:80'
-    depends_on:
-      db:
-        condition: service_healthy
-
 volumes:
   db_data:
-  files-data:
-  temp-data:
-  logs-data:
+  uploads-data:
 
 networks:
   default:
-    name: ${PACKAGE_NAME}_network
-    labels:
-      - 'project=${PACKAGE_NAME}'
+    name: ${COMPOSE_PROJECT_NAME:-visual-graphics}_network

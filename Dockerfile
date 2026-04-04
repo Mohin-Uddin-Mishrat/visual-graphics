@@ -1,5 +1,5 @@
 # ====== BUILD STAGE ======
-FROM node:24-slim AS builder
+FROM node:22-slim AS builder
 
 # Set working directory
 WORKDIR /app
@@ -13,19 +13,19 @@ COPY prisma.config.ts ./
 COPY prisma ./prisma
 
 # Install dependencies
-RUN npm install
+RUN npm ci
 
 # Copy rest of the project files
 COPY . .
+
+# Generate Prisma client before building
+RUN npx prisma generate
 
 # Build the app (NestJS -> dist/)
 RUN npm run build
 
 # ====== PRODUCTION STAGE ======
-FROM node:24-slim AS production
-
-# Enable corepack and activate pnpm
-RUN corepack enable && corepack prepare pnpm@latest --activate
+FROM node:22-slim AS production
 
 # Set working directory
 WORKDIR /app
@@ -41,10 +41,10 @@ COPY --from=builder /app/prisma.config.ts ./
 COPY --from=builder /app/prisma ./prisma
 
 # Install dependencies
-RUN npm install
+RUN npm ci
 
 # Expose the port
 EXPOSE 3000
 
 # Run the app
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "start:prod"]
