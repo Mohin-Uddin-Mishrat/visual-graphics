@@ -63,7 +63,8 @@ export class CloudeFlareService {
       throw new BadRequestException('Only image and zip files are allowed');
     }
 
-    const upload = await this.uploadFile(file, 'client-assets');
+    const uploadFolder = dto.isClientSent ? 'order' : 'edited';
+    const upload = await this.uploadFile(file, uploadFolder);
 
     return this.prisma.client.clientAsset.create({
       data: {

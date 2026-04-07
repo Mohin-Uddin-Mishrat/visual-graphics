@@ -53,7 +53,7 @@ describe('CloudeFlareService', () => {
     service = module.get<CloudeFlareService>(CloudeFlareService);
   });
 
-  it('accepts zip uploads', async () => {
+  it('uploads client-sent assets to the order folder', async () => {
     const file = {
       originalname: 'assets.zip',
       mimetype: 'application/zip',
@@ -62,12 +62,35 @@ describe('CloudeFlareService', () => {
 
     const storedAsset = {
       id: 1,
-      imageUrl: 'https://cdn.example.com/client-assets/assets.zip',
+      imageUrl: 'https://cdn.example.com/order/assets.zip',
+      isClientSent: true,
+    };
+
+    jest.spyOn(service, 'uploadFile').mockResolvedValue({
+      key: 'order/assets.zip',
+      url: storedAsset.imageUrl,
+    });
+    createMock.mockResolvedValue(storedAsset);
+
+    await expect(service.createClientAsset({ isClientSent: true }, file)).resolves.toEqual(storedAsset);
+    expect(service.uploadFile).toHaveBeenCalledWith(file, 'order');
+  });
+
+  it('uploads non-client-sent assets to the edited folder', async () => {
+    const file = {
+      originalname: 'demo.webp',
+      mimetype: 'image/webp',
+      buffer: Buffer.from('image'),
+    } as Express.Multer.File;
+
+    const storedAsset = {
+      id: 2,
+      imageUrl: 'https://cdn.example.com/edited/demo.webp',
       isClientSent: false,
     };
 
     jest.spyOn(service, 'uploadFile').mockResolvedValue({
-      key: 'client-assets/assets.zip',
+      key: 'edited/demo.webp',
       url: storedAsset.imageUrl,
     });
     createMock.mockResolvedValue(storedAsset);
@@ -75,6 +98,7 @@ describe('CloudeFlareService', () => {
     await expect(
       service.createClientAsset({ isClientSent: false }, file),
     ).resolves.toEqual(storedAsset);
+    expect(service.uploadFile).toHaveBeenCalledWith(file, 'edited');
   });
 
   it('rejects unsupported file types', async () => {
