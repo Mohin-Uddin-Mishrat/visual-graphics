@@ -4,6 +4,9 @@ FROM node:22-slim AS builder
 # Set working directory
 WORKDIR /app
 
+ARG DATABASE_URL
+ENV DATABASE_URL=$DATABASE_URL
+
 # Install system dependencies for build
 RUN apt update && apt install -y openssl
 
@@ -29,6 +32,9 @@ FROM node:22-slim AS production
 
 # Set working directory
 WORKDIR /app
+
+ARG DATABASE_URL
+ENV DATABASE_URL=$DATABASE_URL
 
 # Install system dependencies needed at runtime
 RUN apt update && apt install -y openssl curl

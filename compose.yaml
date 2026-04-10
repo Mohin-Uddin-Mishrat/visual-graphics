@@ -2,6 +2,8 @@ services:
   api:
     build:
       context: .
+      args:
+        DATABASE_URL: ${DATABASE_URL}
     image: ${IMAGE_NAME:-visual-graphics-backend}:latest
     container_name: ${COMPOSE_PROJECT_NAME:-visual-graphics}_api
     restart: always
