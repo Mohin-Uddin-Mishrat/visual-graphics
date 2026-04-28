@@ -175,6 +175,9 @@ export class CloudeFlareService {
           Key: objectKey,
           Body: file.buffer,
           ContentType: file.mimetype,
+          ContentDisposition: this.buildAttachmentDisposition(
+            sanitizedFileName,
+          ),
         }),
       );
     } catch {
@@ -214,6 +217,10 @@ export class CloudeFlareService {
 
   private sanitizeFileName(fileName: string) {
     return fileName.replace(/[^a-zA-Z0-9.-]/g, '-');
+  }
+
+  private buildAttachmentDisposition(fileName: string) {
+    return `attachment; filename="${fileName}"`;
   }
 
   private isSupportedClientAsset(file: Express.Multer.File) {

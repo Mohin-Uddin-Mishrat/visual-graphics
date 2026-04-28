@@ -1,6 +1,7 @@
 import { BadRequestException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
+import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { PrismaService } from '../prisma/prisma.service';
 import { CloudeFlareService } from './cloude-flare.service';
 
@@ -111,5 +112,27 @@ describe('CloudeFlareService', () => {
     await expect(service.createClientAsset({}, file)).rejects.toThrow(
       new BadRequestException('Only image and zip files are allowed'),
     );
+  });
+
+  it('uploads files to R2 with attachment content disposition', async () => {
+    const sendMock = jest
+      .spyOn((service as any).s3Client, 'send')
+      .mockResolvedValue({});
+
+    const file = {
+      originalname: 'demo image.png',
+      mimetype: 'image/png',
+      buffer: Buffer.from('image'),
+    } as Express.Multer.File;
+
+    await service.uploadFile(file, 'edited');
+
+    const command = sendMock.mock.calls[0][0] as PutObjectCommand;
+
+    expect(command.input.ContentDisposition).toBe(
+      'attachment; filename="demo-image.png"',
+    );
+    expect(command.input.ContentType).toBe('image/png');
+    expect(command.input.Key).toMatch(/^edited\/\d+-demo-image\.png$/);
   });
 });
